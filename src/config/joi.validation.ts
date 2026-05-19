@@ -6,4 +6,6 @@ export const JoiValidation = Joi.object({
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().default(5432),
   DB_USERNAME: Joi.string().required(),
+  JWT_SECRET: Joi.string().required(),
+  PORT: Joi.number().default(3000),
 });
