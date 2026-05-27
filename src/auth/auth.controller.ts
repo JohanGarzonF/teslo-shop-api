@@ -18,23 +18,29 @@ import { UserRoleGuard } from './guards/user-role.guard';
 import { RoleProtected } from './decorators/role-protected.decorator';
 import { ValidRoles } from './constants/valid-roles.constant';
 import { Auth } from './decorators/auth.decorator';
+import { ApiBody, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
+  @ApiBody({ type: CreateUserDto })
+  @ApiCreatedResponse({ description: 'User created successfully' })
   createUser(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
   @Post('login')
+  @ApiBody({ type: LoginUserDto })
+  @ApiOkResponse({ description: 'User logged in successfully' })
   loginUser(@Body() loginDto: LoginUserDto) {
     return this.authService.login(loginDto);
   }
 
   @Get('check-status')
   @Auth()
+  @ApiOkResponse({ description: 'User status checked successfully' })
   checkAuthStatus(@GetUser() user: User) {
     return this.authService.checkStatus(user);
   }
